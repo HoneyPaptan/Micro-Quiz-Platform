@@ -1,29 +1,20 @@
-import { Metadata } from 'next';
-import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { categories, quizzes } from '@/lib/data';
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { headers } from "next/headers";
 
-export async function generateStaticParams() {
-  
-  return [];
+async function getQuizzes() {
+  const host = (await headers()).get("host");
+  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+  const res = await fetch(`${protocol}://${host}/api/quiz-list`, { cache: "no-store" });
+  if (!res.ok) return [];
+  return res.json();
 }
 
+export default async function Home() {
+  // SSR: Fetch quizzes from API
+  const quizzes = await getQuizzes();
 
-export const metadata: Metadata = {
-  title: 'Micro-Quiz Platform - Test Your Knowledge',
-  description: 'Explore our comprehensive quiz platform featuring programming, science, history, geography, and sports categories. Test your knowledge with interactive quizzes designed for all skill levels.',
-  keywords: 'quiz, knowledge test, programming quiz, science quiz, history quiz, geography quiz, sports quiz',
-  openGraph: {
-    title: 'Micro-Quiz Platform - Test Your Knowledge',
-    description: 'Explore our comprehensive quiz platform featuring programming, science, history, geography, and sports categories.',
-    type: 'website',
-  },
-};
-
-export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       <section className="max-w-7xl mx-auto px-4 py-16">
@@ -51,10 +42,11 @@ export default function Home() {
         </div>
         {/* Quiz Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {quizzes.slice(0, 3).map((quiz) => (
-            <div
+          {quizzes.slice(0, 3).map((quiz: any) => (
+            <Link
               key={quiz.id}
-              className="rounded-2xl overflow-hidden shadow-sm bg-white border border-gray-100"
+              href={`/quiz/${quiz.id}`}
+              className="rounded-2xl overflow-hidden shadow-sm bg-white border border-gray-100 hover:shadow-md transition block"
             >
               <Image
                 src={quiz.imageUrl || "/placeholder.jpg"}
@@ -71,7 +63,7 @@ export default function Home() {
                     : quiz.description}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
