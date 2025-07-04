@@ -134,7 +134,7 @@ microquiz/
 ## 🚀 Deployment
 
 ### Live Demo
-🌐 **Deployed Application**: [https://microquiz-demo.vercel.app](https://microquiz-demo.vercel.app)
+🌐 **Deployed Application**: [[https://microquiz-demo.vercel.app](https://microquiz-demo.vercel.app)](https://micro-quiz-platform-rho.vercel.app/)
 
 ### Build Commands
 ```bash
