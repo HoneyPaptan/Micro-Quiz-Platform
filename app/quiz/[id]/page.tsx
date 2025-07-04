@@ -13,9 +13,10 @@ export async function generateMetadata({ params }: { params: Promise<any> }): Pr
 }
 
 async function fetchQuiz(quizId: string) {
-  const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-  const host = process.env.VERCEL_URL || 'localhost:3000';
-  const res = await fetch(`${protocol}://${host}/api/quiz/${quizId}`, { cache: 'no-store' });
+  const host = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : 'http://localhost:3000';
+  const res = await fetch(`${host}/api/quiz/${quizId}`, { cache: 'no-store' });
   if (!res.ok) return null;
   return res.json();
 }

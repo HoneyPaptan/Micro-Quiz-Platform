@@ -33,18 +33,20 @@ interface Quiz {
 }
 
 async function fetchCategory(categoryId: string): Promise<Category | null> {
-  const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-  const host = process.env.VERCEL_URL || 'localhost:3000';
-  const res = await fetch(`${protocol}://${host}/api/categories`, { cache: 'no-store' });
+  const host = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : 'http://localhost:3000';
+  const res = await fetch(`${host}/api/categories`, { cache: 'no-store' });
   if (!res.ok) return null;
   const categories = await res.json();
   return categories.find((cat: Category) => cat.id === categoryId) || null;
 }
 
 async function fetchQuizzes(categoryId: string): Promise<Quiz[]> {
-  const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-  const host = process.env.VERCEL_URL || 'localhost:3000';
-  const res = await fetch(`${protocol}://${host}/api/quizzes/${categoryId}`, { cache: 'no-store' });
+  const host = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : 'http://localhost:3000';
+  const res = await fetch(`${host}/api/quizzes/${categoryId}`, { cache: 'no-store' });
   if (!res.ok) return [];
   return res.json();
 }

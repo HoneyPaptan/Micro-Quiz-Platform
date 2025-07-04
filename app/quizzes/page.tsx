@@ -18,9 +18,10 @@ export const metadata: Metadata = {
 };
 
 async function fetchCategories(): Promise<Category[]> {
-  const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-  const host = process.env.VERCEL_URL || 'localhost:3000';
-  const res = await fetch(`${protocol}://${host}/api/categories`, { cache: 'no-store' });
+  const host = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : 'http://localhost:3000';
+  const res = await fetch(`${host}/api/categories`, { cache: 'no-store' });
   if (!res.ok) return [];
   return res.json();
 }
