@@ -8,18 +8,42 @@ interface CategoryPageProps {
   params: { category: string };
 }
 
-async function fetchCategory(categoryId: string) {
+interface Category {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  color: string;
+  quizCount: number;
+  image: string | null;
+}
+
+interface Quiz {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  imageUrl: string;
+  questions: Array<{
+    question: string;
+    options: string[];
+    correctAnswer: number;
+    explanation?: string;
+  }>;
+}
+
+async function fetchCategory(categoryId: string): Promise<Category | null> {
   const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-  const host = typeof window === 'undefined' ? require('next/headers').headers().get('host') : window.location.host;
+  const host = process.env.VERCEL_URL || 'localhost:3000';
   const res = await fetch(`${protocol}://${host}/api/categories`, { cache: 'no-store' });
   if (!res.ok) return null;
   const categories = await res.json();
-  return categories.find((cat: any) => cat.id === categoryId) || null;
+  return categories.find((cat: Category) => cat.id === categoryId) || null;
 }
 
-async function fetchQuizzes(categoryId: string) {
+async function fetchQuizzes(categoryId: string): Promise<Quiz[]> {
   const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-  const host = typeof window === 'undefined' ? require('next/headers').headers().get('host') : window.location.host;
+  const host = process.env.VERCEL_URL || 'localhost:3000';
   const res = await fetch(`${protocol}://${host}/api/quizzes/${categoryId}`, { cache: 'no-store' });
   if (!res.ok) return [];
   return res.json();
@@ -71,7 +95,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
               No quizzes found in this category.
             </div>
           ) : (
-            quizzes.map((quiz: any) => (
+            quizzes.map((quiz: Quiz) => (
               <Link
                 key={quiz.id}
                 href={`/quiz/${quiz.id}`}
