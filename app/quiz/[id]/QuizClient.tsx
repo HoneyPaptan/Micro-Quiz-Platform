@@ -116,7 +116,7 @@ export default function QuizClient({ quiz }: { quiz: any }) {
             );
           })}
         </div>
-        {showFeedback && (
+        {showFeedback && selected !== null && (
           <div className="mb-4 text-center">
             {selected === question.correctAnswer ? (
               <span className="text-green-600 font-semibold">Correct!</span>
