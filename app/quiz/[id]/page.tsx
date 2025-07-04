@@ -13,10 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<any> }): Pr
 }
 
 async function fetchQuiz(quizId: string) {
-  const host = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : 'http://localhost:3000';
-  const res = await fetch(`${host}/api/quiz/${quizId}`, { cache: 'no-store' });
+  const res = await fetch(`/api/quiz/${quizId}`, { cache: 'no-store' });
   if (!res.ok) return null;
   return res.json();
 }

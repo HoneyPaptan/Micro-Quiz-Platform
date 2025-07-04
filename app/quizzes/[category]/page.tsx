@@ -33,20 +33,14 @@ interface Quiz {
 }
 
 async function fetchCategory(categoryId: string): Promise<Category | null> {
-  const host = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : 'http://localhost:3000';
-  const res = await fetch(`${host}/api/categories`, { cache: 'no-store' });
+  const res = await fetch('/api/categories', { cache: 'no-store' });
   if (!res.ok) return null;
   const categories = await res.json();
   return categories.find((cat: Category) => cat.id === categoryId) || null;
 }
 
 async function fetchQuizzes(categoryId: string): Promise<Quiz[]> {
-  const host = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : 'http://localhost:3000';
-  const res = await fetch(`${host}/api/quizzes/${categoryId}`, { cache: 'no-store' });
+  const res = await fetch(`/api/quizzes/${categoryId}`, { cache: 'no-store' });
   if (!res.ok) return [];
   return res.json();
 }
