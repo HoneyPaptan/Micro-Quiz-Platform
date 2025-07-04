@@ -4,11 +4,25 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
+interface Quiz {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  imageUrl: string;
+  questions: Array<{
+    question: string;
+    options: string[];
+    correctAnswer: number;
+    explanation?: string;
+  }>;
+}
+
 function getStorageKey(quizId: string) {
   return `quiz-progress-${quizId}`;
 }
 
-export default function QuizClient({ quiz }: { quiz: any }) {
+export default function QuizClient({ quiz }: { quiz: Quiz }) {
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);

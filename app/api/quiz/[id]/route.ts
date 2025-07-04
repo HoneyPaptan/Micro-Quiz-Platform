@@ -1,13 +1,13 @@
-import { NextResponse } from 'next/server';
-import { getQuizById } from '@/lib/data';
+import { NextRequest, NextResponse } from 'next/server';
+import { quizzes } from '@/lib/data';
 
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
-    const quiz = getQuizById(id);
+    const quiz = quizzes.find(q => q.id === id);
     
     if (!quiz) {
       return NextResponse.json(
@@ -17,7 +17,7 @@ export async function GET(
     }
 
     return NextResponse.json(quiz);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to fetch quiz' },
       { status: 500 }

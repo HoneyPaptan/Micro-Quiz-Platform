@@ -2,14 +2,24 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
+interface Category {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  color: string;
+  quizCount: number;
+  image: string | null;
+}
+
 export const metadata: Metadata = {
   title: "All Quiz Categories | Micro-Quiz Platform",
   description: "Explore all available quiz categories and test your knowledge in various subjects.",
 };
 
-async function fetchCategories() {
+async function fetchCategories(): Promise<Category[]> {
   const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-  const host = typeof window === 'undefined' ? require('next/headers').headers().get('host') : window.location.host;
+  const host = process.env.VERCEL_URL || 'localhost:3000';
   const res = await fetch(`${protocol}://${host}/api/categories`, { cache: 'no-store' });
   if (!res.ok) return [];
   return res.json();
@@ -51,7 +61,7 @@ export default async function QuizzesPage() {
               No categories found.
             </div>
           ) : (
-            categories.map((category: any) => (
+            categories.map((category: Category) => (
               <Link
                 key={category.id}
                 href={`/quizzes/${category.id}`}

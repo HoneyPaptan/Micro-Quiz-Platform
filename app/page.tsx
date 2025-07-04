@@ -1,6 +1,4 @@
-import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { categories } from "@/lib/data";
 
 export const metadata = {
