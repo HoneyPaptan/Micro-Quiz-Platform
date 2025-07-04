@@ -1,20 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { headers } from "next/headers";
+import { quizzes } from "@/lib/data";
 
-async function getQuizzes() {
-  const host = (await headers()).get("host");
-  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
-  const res = await fetch(`${protocol}://${host}/api/quiz-list`, { cache: "no-store" });
-  if (!res.ok) return [];
-  return res.json();
-}
+export const metadata = {
+  title: "Micro-Quiz Platform | Home",
+  description: "Challenge yourself with our top-rated quizzes for all ages and skill levels.",
+};
 
-export default async function Home() {
-  // SSR: Fetch quizzes from API
-  const quizzes = await getQuizzes();
-
+export default function Home() {
+  // SSG: Use statically imported quizzes
   return (
     <div className="min-h-screen bg-white">
       <section className="max-w-7xl mx-auto px-4 py-16">

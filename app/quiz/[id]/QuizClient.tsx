@@ -1,8 +1,12 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+
+function getStorageKey(quizId: string) {
+  return `quiz-progress-${quizId}`;
+}
 
 export default function QuizClient({ quiz }: { quiz: any }) {
   const [current, setCurrent] = useState(0);
@@ -10,6 +14,35 @@ export default function QuizClient({ quiz }: { quiz: any }) {
   const [score, setScore] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
+
+  // Restore state from localStorage on mount
+  useEffect(() => {
+    const saved = typeof window !== 'undefined' ? localStorage.getItem(getStorageKey(quiz.id)) : null;
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setCurrent(parsed.current ?? 0);
+      setSelected(parsed.selected ?? null);
+      setScore(parsed.score ?? 0);
+      setCompleted(parsed.completed ?? false);
+      setShowFeedback(parsed.showFeedback ?? false);
+    }
+  }, [quiz.id]);
+
+  // Save state to localStorage on every change
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem(
+      getStorageKey(quiz.id),
+      JSON.stringify({ current, selected, score, completed, showFeedback })
+    );
+  }, [quiz.id, current, selected, score, completed, showFeedback]);
+
+  // Clear state on completion
+  useEffect(() => {
+    if (completed && typeof window !== 'undefined') {
+      localStorage.removeItem(getStorageKey(quiz.id));
+    }
+  }, [completed, quiz.id]);
 
   const question = quiz.questions[current];
 
