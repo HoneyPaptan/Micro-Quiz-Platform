@@ -25,6 +25,7 @@ export interface Category {
   icon: string;
   color: string;
   quizCount: number;
+  image: string | null;
 }
 
 // Mock Categories Data
@@ -35,7 +36,8 @@ export const categories: Category[] = [
     description: 'Test your coding knowledge with questions about various programming languages and concepts.',
     icon: '💻',
     color: 'bg-blue-500',
-    quizCount: 3
+    quizCount: 3,
+    image: null
   },
   {
     id: 'science',
@@ -43,7 +45,8 @@ export const categories: Category[] = [
     description: 'Explore the wonders of science with questions about physics, chemistry, and biology.',
     icon: '🔬',
     color: 'bg-green-500',
-    quizCount: 2
+    quizCount: 2,
+    image: null
   },
   {
     id: 'history',
@@ -51,7 +54,8 @@ export const categories: Category[] = [
     description: 'Journey through time with historical facts and events from around the world.',
     icon: '📚',
     color: 'bg-yellow-500',
-    quizCount: 2
+    quizCount: 2,
+    image: null
   },
   {
     id: 'geography',
@@ -59,7 +63,8 @@ export const categories: Category[] = [
     description: 'Discover the world with questions about countries, capitals, and natural wonders.',
     icon: '🌍',
     color: 'bg-purple-500',
-    quizCount: 2
+    quizCount: 2,
+    image: null
   },
   {
     id: 'sports',
@@ -67,7 +72,8 @@ export const categories: Category[] = [
     description: 'Test your knowledge about various sports, athletes, and sporting events.',
     icon: '⚽',
     color: 'bg-red-500',
-    quizCount: 1
+    quizCount: 1,
+    image: null
   }
 ];
 
@@ -299,7 +305,7 @@ export const quizzes: Quiz[] = [
     difficulty: 'medium',
     timeLimit: 15,
     totalQuestions: 5,
-    imageUrl: '/images/physics.svg',
+    imageUrl: '/images/physics.jpg',
     questions: [
       {
         id: 'physics-1',
@@ -371,7 +377,7 @@ export const quizzes: Quiz[] = [
     difficulty: 'medium',
     timeLimit: 12,
     totalQuestions: 5,
-    imageUrl: '/images/chemistry.svg',
+    imageUrl: '/images/chem.jpg',
     questions: [
       {
         id: 'chemistry-1',
@@ -444,7 +450,7 @@ export const quizzes: Quiz[] = [
     difficulty: 'medium',
     timeLimit: 15,
     totalQuestions: 5,
-    imageUrl: '/images/ancient.svg',
+    imageUrl: '/images/ancient.webp',
     questions: [
       {
         id: 'ancient-1',
@@ -516,7 +522,7 @@ export const quizzes: Quiz[] = [
     difficulty: 'hard',
     timeLimit: 20,
     totalQuestions: 5,
-    imageUrl: '/images/ww2.svg',
+    imageUrl: '/images/worldwar2.webp',
     questions: [
       {
         id: 'ww2-1',
@@ -589,7 +595,7 @@ export const quizzes: Quiz[] = [
     difficulty: 'medium',
     timeLimit: 15,
     totalQuestions: 5,
-    imageUrl: '/images/capitals.svg',
+    imageUrl: '/images/worldcapitals.jpg',
     questions: [
       {
         id: 'capitals-1',
@@ -661,7 +667,7 @@ export const quizzes: Quiz[] = [
     difficulty: 'easy',
     timeLimit: 12,
     totalQuestions: 5,
-    imageUrl: '/images/wonders.svg',
+    imageUrl: '/images/naturalwonders.jpg',
     questions: [
       {
         id: 'wonders-1',
@@ -734,7 +740,7 @@ export const quizzes: Quiz[] = [
     difficulty: 'medium',
     timeLimit: 15,
     totalQuestions: 5,
-    imageUrl: '/images/football.svg',
+    imageUrl: '/images/football.jpeg',
     questions: [
       {
         id: 'football-1',
