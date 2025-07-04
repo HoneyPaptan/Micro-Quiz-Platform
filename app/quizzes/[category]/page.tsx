@@ -3,14 +3,30 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { getQuizzesByCategory, getCategoryById } from '@/lib/data';
 
 interface CategoryPageProps {
   params: { category: string };
 }
 
+async function fetchCategory(categoryId: string) {
+  const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
+  const host = typeof window === 'undefined' ? require('next/headers').headers().get('host') : window.location.host;
+  const res = await fetch(`${protocol}://${host}/api/categories`, { cache: 'no-store' });
+  if (!res.ok) return null;
+  const categories = await res.json();
+  return categories.find((cat: any) => cat.id === categoryId) || null;
+}
+
+async function fetchQuizzes(categoryId: string) {
+  const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
+  const host = typeof window === 'undefined' ? require('next/headers').headers().get('host') : window.location.host;
+  const res = await fetch(`${protocol}://${host}/api/quizzes/${categoryId}`, { cache: 'no-store' });
+  if (!res.ok) return [];
+  return res.json();
+}
+
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
-  const category = getCategoryById(params.category);
+  const category = await fetchCategory(params.category);
   if (!category) return {};
   return {
     title: `${category.name} Quizzes | Micro-Quiz Platform`,
@@ -18,11 +34,10 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   };
 }
 
-export default function CategoryPage({ params }: CategoryPageProps) {
-  const category = getCategoryById(params.category);
-  const quizzes = getQuizzesByCategory(params.category);
-
+export default async function CategoryPage({ params }: CategoryPageProps) {
+  const category = await fetchCategory(params.category);
   if (!category) return notFound();
+  const quizzes = await fetchQuizzes(params.category);
 
   return (
     <div className="min-h-screen bg-white">
@@ -56,7 +71,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
               No quizzes found in this category.
             </div>
           ) : (
-            quizzes.map((quiz) => (
+            quizzes.map((quiz: any) => (
               <Link
                 key={quiz.id}
                 href={`/quiz/${quiz.id}`}
