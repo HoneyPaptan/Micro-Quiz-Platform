@@ -1,103 +1,80 @@
+import { Metadata } from 'next';
+import Link from 'next/link';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { categories, quizzes } from '@/lib/data';
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+
+export async function generateStaticParams() {
+  
+  return [];
+}
+
+
+export const metadata: Metadata = {
+  title: 'Micro-Quiz Platform - Test Your Knowledge',
+  description: 'Explore our comprehensive quiz platform featuring programming, science, history, geography, and sports categories. Test your knowledge with interactive quizzes designed for all skill levels.',
+  keywords: 'quiz, knowledge test, programming quiz, science quiz, history quiz, geography quiz, sports quiz',
+  openGraph: {
+    title: 'Micro-Quiz Platform - Test Your Knowledge',
+    description: 'Explore our comprehensive quiz platform featuring programming, science, history, geography, and sports categories.',
+    type: 'website',
+  },
+};
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-screen bg-white">
+      <section className="max-w-7xl mx-auto px-4 py-16">
+        {/* Pill label */}
+        <span className="inline-block rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-700 mb-4 border border-gray-200">
+          Our quizzes
+        </span>
+        {/* Heading and subtitle */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+              Our Premium Quizzes
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl">
+              Challenge yourself with our top-rated quizzes for all ages and skill levels.
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            className="rounded-full px-6 py-2 mt-4 md:mt-0 font-semibold"
+            asChild
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <Link href="/quizzes">Explore More &rarr;</Link>
+          </Button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        {/* Quiz Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {quizzes.slice(0, 3).map((quiz) => (
+            <div
+              key={quiz.id}
+              className="rounded-2xl overflow-hidden shadow-sm bg-white border border-gray-100"
+            >
+              <Image
+                src={quiz.imageUrl || "/placeholder.jpg"}
+                alt={quiz.title}
+                width={500}
+                height={300}
+                className="object-cover w-full h-48"
+              />
+              <div className="p-5">
+                <h3 className="text-xl font-semibold mb-2">{quiz.title}</h3>
+                <p className="text-gray-500 text-sm">
+                  {quiz.description.length > 50
+                    ? quiz.description.slice(0, 50) + "..."
+                    : quiz.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

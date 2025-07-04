@@ -82,7 +82,7 @@ export const quizzes: Quiz[] = [
     difficulty: 'easy',
     timeLimit: 10,
     totalQuestions: 5,
-    imageUrl: '/images/javascript.svg',
+    imageUrl: '/images/javascript.png',
     questions: [
       {
         id: 'js-1',
@@ -154,7 +154,7 @@ export const quizzes: Quiz[] = [
     difficulty: 'medium',
     timeLimit: 15,
     totalQuestions: 5,
-    imageUrl: '/images/react.svg',
+    imageUrl: '/images/react.png',
     questions: [
       {
         id: 'react-1',
@@ -226,7 +226,7 @@ export const quizzes: Quiz[] = [
     difficulty: 'easy',
     timeLimit: 12,
     totalQuestions: 5,
-    imageUrl: '/images/python.svg',
+    imageUrl: '/images/python.png',
     questions: [
       {
         id: 'python-1',
