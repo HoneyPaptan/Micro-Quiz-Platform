@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import { headers } from 'next/headers';
 
 interface CategoryPageProps {
   params: { category: string };
@@ -33,14 +34,20 @@ interface Quiz {
 }
 
 async function fetchCategory(categoryId: string): Promise<Category | null> {
-  const res = await fetch('/api/categories', { cache: 'no-store' });
+  const h = await headers();
+  const host = h.get('host');
+  const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
+  const res = await fetch(`${protocol}://${host}/api/categories`, { cache: 'no-store' });
   if (!res.ok) return null;
   const categories = await res.json();
   return categories.find((cat: Category) => cat.id === categoryId) || null;
 }
 
 async function fetchQuizzes(categoryId: string): Promise<Quiz[]> {
-  const res = await fetch(`/api/quizzes/${categoryId}`, { cache: 'no-store' });
+  const h = await headers();
+  const host = h.get('host');
+  const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
+  const res = await fetch(`${protocol}://${host}/api/quizzes/${categoryId}`, { cache: 'no-store' });
   if (!res.ok) return [];
   return res.json();
 }
